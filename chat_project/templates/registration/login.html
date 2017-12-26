@@ -61,6 +61,12 @@
     <br>
 
     <div class="logintext">
+      {% if user.is_authenticated %}
+          <p>Hi {{ user.username }}!</p>
+          <a href="{% url 'home' %}">Start chat</a>
+
+      {% else %}
+
       <form action="." method="POST">
 
         <div class="username">
@@ -82,7 +88,7 @@
       </form>
       </div>
   </div>
-
+   {% endif %}
 </body>
 </html>
 

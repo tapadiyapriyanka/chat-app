@@ -1,57 +1,78 @@
-{% block title %}Home{% endblock %}
 
 {% block content %}
 <!DOCTYPE html>
 <html>
+<title>{% block title %}Home{% endblock %}</title>
 <header>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" charset="utf-8"></script>
     <style media="screen">
           .post-entry{
             width: 80%;
           }
-          /*.link{
+
+          .button2{
+            text-align: right;
+            color: black;
+          }
+          .button2 a{
+            color: black;
+            font-style: none;
+          }
+          /* .link{
             text-align: right;
             font-size: 18px;
           }
           .link a{
             color: red;
-          }*/
+          } */
     </style>
-
-
 </header>
+
   <body>
+    <div class="button2">
+          <a href="{% url 'logout' %}">Logout</a>
+    </div>
+
     <div class="post-entry">
-      {% for chat in object_list %}
-          <p> {{ chat.textmsg }}</p>
-        </div>
-      {% endfor %}
+        {% for chat in object_list %}
+            {{ chat.textmsg }}<br>
+        {% endfor %}
+    </div>
 
-      <div class="textarea">
-          <label for="messagebox">messagebox</label>
-          <textarea id="MessageBox" rows="3" cols="40"></textarea>
+    <div class="form-work">
+        <form method="post" action="">{% csrf_token %}
+             {{ form.as_p}}
+             <input type="submit" name="submitbtn" value="send">
+        </form>
 
-            <input value="Send" id="submitname" type="button">
-            {% csrf_token %}
+    </div>
+
+    <!-- <div class="textarea">
+          <br>
+            <form method="POST" action="{% url 'logout_redirect' %}">
+              <label> messagebox </label>
+              <textarea name="MessageBox" rows="3" cols="40"></textarea>
+              <input type="submit">
+              {% csrf_token %}
+            </form>
+      </div> -->
 
         <!-- <form action="'{% url 'home' %}'" method="post">
             <input type="button" value="Send" />
         </form> -->
 
-      </div>
-    </div>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         $('#submitname').click(function(){
           alert("hello");
             $.ajax({
               type:'post',
-              url: 'home',
+              // url: '/chat/list/',
               data: {'message':document.getElementById('MessageBox').value},
-              dataType: 'json'
+              dataType: 'json',
             });
         });
 
-    </script>
+    </script> -->
 </body>
 
 

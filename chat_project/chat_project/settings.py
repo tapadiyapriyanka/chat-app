@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chat_app',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -125,4 +125,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "logout_redirect"
+LOGOUT_REDIRECT_URL = "homepage"

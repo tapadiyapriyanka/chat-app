@@ -32,14 +32,19 @@
         box-shadow: 2px 3px 2px 3px #888888;
         text-align: center;
       }
-
-      
     </style>
 </head>
+
 <body>
 <div class="container">
   <div class="button1">
-        <a href="{% url 'login' %}">Login</a> / <a href="{% url 'signup' %}"> Signup</a>
+      {% if user.is_authenticated %}
+          <p>Hi {{ user.username }}!</p>
+          <a href="{% url 'home' %}">Start chat</a>
+      {% else %}
+          <p>You are not Logged in..</p>
+          <a href="{% url 'login' %}">Login</a> / <a href="{% url 'signup' %}"> Signup</a>
+      {% endif %}
   </div>
 
   <div class="contains">

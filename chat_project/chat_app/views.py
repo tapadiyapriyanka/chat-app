@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from . models import chatmessage
 from django.contrib.auth.decorators import login_required
+from .forms import Post_Form
 
 # Create your views here.
 class homePageView(TemplateView):
@@ -34,14 +35,21 @@ def signup(request):
 
     response = TemplateResponse(request, 'registration/signup.html', {'form': form})
     return response
-    # template_name = 'registation/signup.html'
-    # return template_name
-    # #return render(request, 'registation/signup.html', {'form' : form})
+
 @login_required
 def chatListView(request):
-    return render(request, 'home.html', {'model':chatmessage})
-    # model = chatmessage
-    # template_name = 'home.html'
+    form = Post_Form(request.POST or None)
+    queryset=chatmessage.objects.all()
+    if request.method == "POST":
+        instance = form.save(commit=False)
+        instance.username = request.user
+        instance.save()
+        print(request.POST.get("textmsg"))
+    context = {
+        "object_list" : queryset,
+        "form" : form,
+    }
+    return render(request, 'home.html', context)
 
 class chatDetailView(DetailView):
     model = chatmessage
