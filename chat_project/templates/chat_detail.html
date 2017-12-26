@@ -1,0 +1,10 @@
+{% block content %}
+  <div class="post_entry">
+    <h2>{{ anything_you_want.username }}</h2>
+    <p>{{ anything_you_want.textmsg }}</p>
+  </div>
+
+  <p><a href="{% url 'chat_edit' %}">+ Edit chat</a></p>
+  <p> checking </p>
+  <p><a href= "{% url 'chat_delete' chat.pk %}">+ Delete chat</a></p>
+{% endblock content %}

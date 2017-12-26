@@ -1,0 +1,28 @@
+{% block title %}Edit Delete page{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<header>
+    <style media="screen">
+          .post-entry{
+            width: 80%;
+          }
+          .link1{
+            text-align: right;
+            font-size: 18px;
+          }
+          .link1 a{
+            color: red;
+          }
+    </style>
+
+  <body>
+    <div class="link1">
+          <a href="{% url 'chat_edit' %}">+ Edit chat</a>
+          <a href="{% url 'chat_delete' %}">- Delete chat</a>
+    </div>
+  </body>
+  </header>
+  </html>
+  {% endblock %}

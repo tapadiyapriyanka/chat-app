@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Home Page{% endblock %}</title>
+    <style media="screen">
+      .button1{
+        text-align: right;
+        color: black;
+      }
+      .button1 a{
+        color: black;
+        font-style: none;
+      }
+      .container{
+        background-color: Beige;
+        width: 60%;
+        margin: auto;
+        height: 400px;
+        border: 1px solid black;
+        text-align: center;
+      }
+      .contains{
+        top: 50%;
+        background-color: lightblue;
+        width: 40%;
+        /* height: auto; */
+        padding: 10px;
+
+        margin:0 auto;
+
+        border: 1px solid;
+        box-shadow: 2px 3px 2px 3px #888888;
+        text-align: center;
+      }
+
+      
+    </style>
+</head>
+<body>
+<div class="container">
+  <div class="button1">
+        <a href="{% url 'login' %}">Login</a> / <a href="{% url 'signup' %}"> Signup</a>
+  </div>
+
+  <div class="contains">
+    <h2> <p style="color: red;">  Welcome to my Chat application...</p></h2>
+      <p>If You are signed up already then click to login else click to signup link </p>
+      <br>
+  </div>
+
+</div>
+
+  {% block content %}
+  {% endblock %}
+
+</body>
+</html>

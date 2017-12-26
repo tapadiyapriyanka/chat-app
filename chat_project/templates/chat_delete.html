@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+   <h1>Delete chat</h1>
+   <form action="home" method="post">{% csrf_token %}
+     <p> Are You Sure You want to delete the chat "{{ chat.textmsg }}" </p>
+        <input type="submit" value="Confirm">
+   </form>
+{% endblock %}
