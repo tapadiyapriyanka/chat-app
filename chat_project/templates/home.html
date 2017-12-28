@@ -4,12 +4,14 @@
 <html>
 <title>{% block title %}Home{% endblock %}</title>
 <header>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" charset="utf-8"></script>
     <style media="screen">
           .post-entry{
             width: 80%;
           }
-
           .button2{
             text-align: right;
             color: black;
@@ -18,13 +20,7 @@
             color: black;
             font-style: none;
           }
-          /* .link{
-            text-align: right;
-            font-size: 18px;
-          }
-          .link a{
-            color: red;
-          } */
+
     </style>
 </header>
 
@@ -33,18 +29,22 @@
           <a href="{% url 'logout' %}">Logout</a>
     </div>
 
-    <div class="post-entry">
-        {% for chat in object_list %}
-            {{ chat.textmsg }}<br>
-        {% endfor %}
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="post-entry">
+            {% for chat in object_list %}
+                {{ chat.textmsg }}<br>
+            {% endfor %}
+        </div>
     </div>
 
-    <div class="form-work">
-        <form method="post" action="">{% csrf_token %}
-             {{ form.as_p}}
-             <input type="submit" name="submitbtn" value="send">
-        </form>
-
+    <div class="col-sm-6 col-sm-offset-3">
+      <br>
+        <div class="form-work">
+            <form method="post" action="">{% csrf_token %}
+                 {{ form.as_p}}
+                 <input type="button" name="submitbtn" id="submit_id" value="send">
+            </form>
+        </div>
     </div>
 
     <!-- <div class="textarea">
@@ -60,19 +60,22 @@
         <!-- <form action="'{% url 'home' %}'" method="post">
             <input type="button" value="Send" />
         </form> -->
-
-    <!-- <script type="text/javascript">
-        $('#submitname').click(function(){
-          alert("hello");
+    <script type="text/javascript">
+        $('#submit_id').click(function(){
+          // var temp = document.getElementById("id_textmsg").value;
+          var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+          var chatMsg = $("#id_textmsg").val();
             $.ajax({
               type:'post',
-              // url: '/chat/list/',
-              data: {'message':document.getElementById('MessageBox').value},
-              dataType: 'json',
+              url: '/chat/list/',
+              data: {'textmsg':chatMsg,"csrfmiddlewaretoken":csrfmiddlewaretoken},
+              // dataType:"json",
+              success:function () {
+                location.reload();;
+              }
             });
         });
-
-    </script> -->
+    </script>
 </body>
 
 

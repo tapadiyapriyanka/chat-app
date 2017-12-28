@@ -1,11 +1,32 @@
-from django.urls import path
+from django.conf.urls import *
 from . import views
+# from rest_framework.routers import SimpleRouter
+#
+# from .views import SubscriberView
+#
+# router = SimpleRouter()
+# router.register("subscribers", SubscriberView)
+#
+# urlpatterns = router.urls
+
+
+# from rest_framework.routers import SimpleRouter
+#
+# from .views import SubscriberView
+#
+# router = SimpleRouter()
+# router.register("subscribers", SubscriberView)
+# print(router.urls)
+# # urlpatterns = [
+#     # router.urls
+# # ]
 
 urlpatterns = [
-    path('chat/list/', views.chatListView, name = 'home'),
-    path('chat/<int:pk>/', views.chatDetailView.as_view(), name = 'chat_detail'),
-    # path('chat/new/', views.chatCreateView.as_view(), name="chat_new"),
-    path('chat/<int:pk>/edit/', views.chatUpdateView.as_view(), name='chat_edit'),
-    path('chat/<int:pk>/delete/',views.chatDeleteView.as_view(), name='chat_delete'),
-    path('chat/edit_delete', views.chatEditdeleteView.as_view(), name='edit_delete'),
+    # url(r'^subscriber', SubscriberView.as_view(), name="subscriber")
+    # url('list/', SubscriberView.as_view(), name = 'home'),      #views.chatListView
+    url('list/', views.chatListView, name = 'home'),      #views.chatListView
+    url('detail/<int:pk>', views.chatDetailView.as_view(), name = 'chat_detail'),
+    url('edit/<int:pk>', views.chatUpdateView.as_view(), name='chat_edit'),
+    url('delete/<int:pk>',views.chatDeleteView.as_view(), name='chat_delete'),
+    url('edit_delete', views.chatEditdeleteView.as_view(), name='edit_delete'),
 ]

@@ -9,6 +9,9 @@ from django.urls import reverse_lazy
 from . models import chatmessage
 from django.contrib.auth.decorators import login_required
 from .forms import Post_Form
+from rest_framework.generics import ListCreateAPIView
+from .serializers import SubscriberSerializer
+
 
 # Create your views here.
 class homePageView(TemplateView):
@@ -37,20 +40,36 @@ def signup(request):
     return response
 
 @login_required
-def chatListView(request):
+def chatListView(request):   #(request)
     form = Post_Form(request.POST or None)
-    queryset=chatmessage.objects.all()
+    queryset=chatmessage.objects.all()          #change accoding to rest api
     if request.method == "POST":
         instance = form.save(commit=False)
         instance.username = request.user
         instance.save()
-        print(request.POST.get("textmsg"))
     context = {
         "object_list" : queryset,
         "form" : form,
     }
     return render(request, 'home.html', context)
 
+'''
+class SubscriberView(ListCreateAPIView):
+    serializer_class = SubscriberSerializer
+    queryset = chatmessage.objects.all()
+
+    # def post(self, request):
+    #     serializer = SubscriberSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         subscriber_instance = Subscriber.objects.create(**serializer.data)
+    #     else:
+    #         return Response({"errors": serializer.errors})
+
+    # def get(self, request):
+    #     all_subscribers = chatmessage.objects.all()
+    #     serialized_subscribers = SubscriberSerializer(all_subscribers, many=True)
+    #     return Response(serialized_subscribers.data)
+'''
 class chatDetailView(DetailView):
     model = chatmessage
     template_name = 'chat_detail.html'

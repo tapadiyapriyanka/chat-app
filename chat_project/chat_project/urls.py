@@ -13,17 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import *
 from django.contrib import admin
-from django.urls import path, include
+
 from django.contrib.auth.views import login, logout
 from chat_app import views
+from .views import json_web_token_auth
 
-urlpatterns = [
-    path('admin/', admin.site.urls, name='adminpage'),
-    path('', views.homePageView.as_view(), name='homepage'),
-    path('login/', login, name='login'),  # The base django login view
-    path('logout/', logout, name='logout'),  # The base django logout view
-    path('logout_redirect/', views.logout_method, name='logout_redirect'),
-    path('signup/', views.signup, name='signup'),
-    path('', include('chat_app.urls')),
+admin.autodiscover()
+
+urlpatterns =[
+    url(r'^login/', login, name='login'),  # The base django login view
+    url(r'^token/', json_web_token_auth, name='authenticate'),
+    url(r'^logout/', logout, name='logout'),  # The base django logout view
+    url(r'^logout_redirect/', views.logout_method, name='logout_redirect'),
+    url(r'^signup/', views.signup, name='signup'),
+    url(r'^admin/', admin.site.urls, name='adminpage'),
+    url(r'^chat/', include('chat_app.urls')),
+    url('', views.homePageView.as_view(), name='homepage')
 ]
