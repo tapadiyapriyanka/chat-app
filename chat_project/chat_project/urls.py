@@ -19,13 +19,17 @@ from django.contrib import admin
 from django.contrib.auth.views import login, logout
 from chat_app import views
 from .views import json_web_token_auth
+from .forms import LoginForm
+# from rest_framework_jwt.views import obtain_jwt_token
 
 admin.autodiscover()
 
 urlpatterns =[
-    url(r'^login/', login, name='login'),  # The base django login view
+    # url(r'^login/', login, name='login'),  # The base django login view
+    url(r'^login/$', login, {'template_name': 'registration/login.html', 'authentication_form': LoginForm}, name='login'),
     url(r'^token/', json_web_token_auth, name='authenticate'),
-    url(r'^logout/', logout, name='logout'),  # The base django logout view
+    # url(r'^logout/', logout, name='logout'),  # The base django logout view
+    url(r'^logout/$', logout, {'next_page': '/login'}, name='logout'),
     url(r'^logout_redirect/', views.logout_method, name='logout_redirect'),
     url(r'^signup/', views.signup, name='signup'),
     url(r'^admin/', admin.site.urls, name='adminpage'),

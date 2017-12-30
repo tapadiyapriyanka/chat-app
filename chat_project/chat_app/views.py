@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import Post_Form
 from rest_framework.generics import ListCreateAPIView
 from .serializers import SubscriberSerializer
-
+from chat_project.authentication import authenticate
 
 # Create your views here.
 class homePageView(TemplateView):

@@ -1,9 +1,8 @@
 
 {% block content %}
-
 <!DOCTYPE html>
 <html>
-<header>
+<head>
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
@@ -56,39 +55,69 @@
         align: left;
       }
     </style>
-</header>
+    {% load staticfiles %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    {# Load the tag library #}
+    {% load bootstrap3 %}
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {# Display django.contrib.messages as Bootstrap alerts #}
+    {% bootstrap_messages %}
+    {# {% load static %} #}
+    <!-- <script src="{% static "login.js" %}"></script> -->
+    <script type="text/javascript">
+    $(document).ready(function() {
+      $('.login-form').on('click', function() {
+        var $this = $(this);
+        $this.button('loading')
+        setTimeout(function(){
+          $.ajax({
+            beforeSend: function(msg){
+              $this.button('loading')
+            },
+            type:"POST",
+            url: $('form[name="login_form"]').attr('action'),
+            data: $('form[name="login_form"]').serialize(),
+            // the success function is called in the case of an http 200 response
+            success: function(response){
+                $this.button('reset');
+                window.localStorage.setItem('x-access-token', response.token);
+                window.location = "{% url 'home'  %}";
+            },
+            error: function(xhr, ajaxOptions, thrownError){
+                alert('login failed - please try again');
+                $this.button('reset');
+            },
+          });
+          console.log("complete");
+        }, 1000);
+      });
+    });
 
+    </script>
+</head>
 <body>
   <!-- <div class="col-sm-6 col-sm-offset-3"> -->
       <div class="loginform">
         <h2>Login</h2>
         <!-- <br> -->
-
         <div class="logintext">
             {% if user.is_authenticated %}
                 <p>Hi {{ user.username }}!</p>
                 <a href="{% url 'home' %}">Start chat</a>
-
             {% else %}
-
-            <form action="{% url 'authenticate' %}" method="POST">
-              <div class="username">
-                <label>Username:</label><br>
-              </div>
-
-              <input type="text" name="username">
-              <br>
-              <br>
-
-              <div class="password">
-                 <label>Password:</label>
-              </div>
-              <input type="password" name="password">
-              <br>
-              <br><br>
-              <input type="submit" class="button" value="Submit">
+            <form name="login_form" method="post" action="{% url 'authenticate' %}">
               {% csrf_token %}
-            </form>
+              {% bootstrap_form form %}
+              {% buttons %}
+               <p class="bs-component">
+                   <center>
+                       <input class="btn btn-primary btn-lg login-form" type="button" value="Login" data-loading-text="Logging In..." />
+                   </center>
+               </p>
+               {% endbuttons %}
+             </form>
           </div>
       </div>
   <!-- </div> -->
