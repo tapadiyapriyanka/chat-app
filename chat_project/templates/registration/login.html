@@ -76,14 +76,16 @@
             beforeSend: function(msg){
               $this.button('loading')
             },
-            type:"POST",
+            type:"post",
             url: $('form[name="login_form"]').attr('action'),
             data: $('form[name="login_form"]').serialize(),
             // the success function is called in the case of an http 200 response
             success: function(response){
                 $this.button('reset');
                 window.localStorage.setItem('x-access-token', response.token);
-                window.location = "{% url 'home'  %}";
+                var headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + response.token });
+                // window.location = "{% url 'home'  %}";
+
             },
             error: function(xhr, ajaxOptions, thrownError){
                 alert('login failed - please try again');
@@ -91,7 +93,7 @@
             },
           });
           console.log("complete");
-        }, 1000);
+        }, 500);
       });
     });
 
@@ -107,7 +109,7 @@
                 <p>Hi {{ user.username }}!</p>
                 <a href="{% url 'home' %}">Start chat</a>
             {% else %}
-            <form name="login_form" method="post" action="{% url 'authenticate' %}">
+            <form name="login_form" action="{% url 'login' %}">
               {% csrf_token %}
               {% bootstrap_form form %}
               {% buttons %}

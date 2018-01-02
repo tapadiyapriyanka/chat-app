@@ -11,7 +11,14 @@ from django.contrib.auth.decorators import login_required
 from .forms import Post_Form
 from rest_framework.generics import ListCreateAPIView
 from .serializers import SubscriberSerializer
-from chat_project.authentication import authenticate
+
+
+from rest_framework import parsers, renderers, status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+
+from chat_project.authentication import UserAuthentication
 
 # Create your views here.
 class homePageView(TemplateView):
@@ -39,19 +46,27 @@ def signup(request):
     response = TemplateResponse(request, 'registration/signup.html', {'form': form})
     return response
 
-@login_required
-def chatListView(request):   #(request)
-    form = Post_Form(request.POST or None)
-    queryset=chatmessage.objects.all()          #change accoding to rest api
-    if request.method == "POST":
-        instance = form.save(commit=False)
-        instance.username = request.user
-        instance.save()
-    context = {
-        "object_list" : queryset,
-        "form" : form,
-    }
-    return render(request, 'home.html', context)
+class chatListView(APIView):   #(request)
+
+    authentication_classes = (UserAuthentication,)
+
+    def get(self, request):
+        print("request", request)
+        content = {
+            'message': 'Welcome {} {}'.format(request.user.first_name, request.user.last_name)
+        }
+        return Response(content, status=status.HTTP_200_OK)
+        # form = Post_Form(request.POST or None)
+        # queryset=chatmessage.objects.all()          #change accoding to rest api
+        # if request.method == "POST":
+        #     instance = form.save(commit=False)
+        #     instance.username = request.user
+        #     instance.save()
+        # context = {
+        #     "object_list" : queryset,
+        #     "form" : form,
+        # }
+        # return render(request, 'home.html', context)
 
 '''
 class SubscriberView(ListCreateAPIView):

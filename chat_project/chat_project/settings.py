@@ -27,22 +27,30 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
-
-INSTALLED_APPS = [
+DEFAULT_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework',
+    # 'rest_framework.authtoken',
     'bootstrap3',
-    'chat_app'
+    # 'chat_app'
     # 'bootstrap3',
 ]
+
+THIRD_PARTY_APPS = [
+    'rest_framework'
+]
+
+LOCAL_APPS = [
+    'chat_app'
+]
+
+INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,17 +64,17 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'chat_project.urls'
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.BasicAuthentication',
+#         'rest_framework.authentication.TokenAuthentication',
+#     ),
+# }
 # Default settings
 BOOTSTRAP3 = {
 
@@ -202,10 +210,15 @@ STATIC_ROOT = "/home/Django-new/chat_project/chat_app/"
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "homepage"
-# LOGIN_REDIRECT_URL = '/'
-# LOGOUT_REDIRECT_URL = '/'
+# jwt settings
+JWT_TOKEN_EXPIRY = 10
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    '/home/Django-new/chat_project/chat_app/static/',
-]
+try:
+    from chat_project.local_settings import *
+except ImportError:
+    pass
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+#     '/home/Django-new/chat_project/chat_app/static/',
+# ]

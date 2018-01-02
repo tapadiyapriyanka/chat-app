@@ -24,7 +24,7 @@ from . import views
 urlpatterns = [
     # url(r'^subscriber', SubscriberView.as_view(), name="subscriber")
     # url('list/', SubscriberView.as_view(), name = 'home'),      #views.chatListView
-    url('list/', views.chatListView, name = 'home'),      #views.chatListView
+    url('list/', views.chatListView.as_view(), name = 'home'),      #views.chatListView
     url('detail/<int:pk>', views.chatDetailView.as_view(), name = 'chat_detail'),
     url('edit/<int:pk>', views.chatUpdateView.as_view(), name='chat_edit'),
     url('delete/<int:pk>',views.chatDeleteView.as_view(), name='chat_delete'),
