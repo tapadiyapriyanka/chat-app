@@ -2,6 +2,10 @@ import datetime
 import jwt
 
 from django.conf import settings
+from django.shortcuts import render_to_response, redirect, get_object_or_404, render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
+from django.template import RequestContext
 
 from django.contrib.auth import authenticate
 from rest_framework import parsers, renderers, status
@@ -62,11 +66,20 @@ class LoginView(APIView):
     """
 
     def post(self, request):
-        print("post")
         username = request.data.get('username', None)
         password = request.data.get('password', None)
         authenticated_user = authenticate(username=username, password=password)
         if authenticated_user:
             serializer = UserLoginSerializer(authenticated_user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return render_to_response('base.html',{"user":request.user})
+                              # context_instance=RequestContext(request))
+            # response = redirect('home')
+            # response['Token'] = serializer.data
+            # response = HttpResponseRedirect(reverse('home'))
+            # request.session['username'] = serializer.data
+            # response['HTTP_AUTHORIZATION'] = 'Basic realm="%s"' % serializer.data
+            # return response
+            # return redirect('home')
+            # Response(serializer.data, status=status.HTTP_200_OK)
+            # return Response['Location'] = serializer.get_absolute_url()
         return Response("Invalid Credentials", status=status.HTTP_401_UNAUTHORIZED)

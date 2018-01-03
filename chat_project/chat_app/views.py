@@ -48,12 +48,21 @@ def signup(request):
 
 class chatListView(APIView):   #(request)
 
-    authentication_classes = (UserAuthentication,)
+    # authentication_classes = (UserAuthentication,)
 
     def get(self, request):
-        print("request", request)
+        first_name = ''
+        last_name = ''
+        print(request.user)
+        if request.user is None or request.user.is_anonymous:
+            first_name = 'Guest'
+            last_name = ''
+        else:
+            first_name = request.user.first_name
+            last_name = request.user.last_name
+
         content = {
-            'message': 'Welcome {} {}'.format(request.user.first_name, request.user.last_name)
+            'message': 'Welcome {} {}'.format(first_name, last_name)
         }
         return Response(content, status=status.HTTP_200_OK)
         # form = Post_Form(request.POST or None)

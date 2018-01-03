@@ -36,10 +36,10 @@ urlpatterns =[
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^login/$', login, {'template_name': 'registration/login.html', 'authentication_form': LoginForm}, name='login_form'),
     # url(r'^token/', json_web_token_auth, name='authenticate'),
-    # url(r'^logout/', logout, name='logout'),  # The base django logout view
+    url(r'^logout/', logout, name='logout'),  # The base django logout view
     # url(r'^logout/$', logout, {'next_page': '/login'}, name='logout'),
     # url(r'^logout_redirect/', views.logout_method, name='logout_redirect'),
-    # url(r'^signup/', views.signup, name='signup'),
+    url(r'^signup/', views.signup, name='signup'),
     # # url(r'^admin/', admin.site.urls, name='adminpage'),
     url(r'^chat/', include('chat_app.urls')),
     url('', views.homePageView.as_view(), name='homepage')
