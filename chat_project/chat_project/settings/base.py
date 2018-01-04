@@ -47,7 +47,6 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'home',
     'chat_app'
 ]
 
@@ -207,7 +206,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-STATIC_ROOT = "/home/Django-new/chat_project/chat_app/"
+STATIC_ROOT = "/home/abc/www/python/chat_project/chat_app/chat_project/chat_app/"
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "homepage"

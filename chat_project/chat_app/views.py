@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from . models import chatmessage
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .forms import Post_Form
 from rest_framework.generics import ListCreateAPIView
 from .serializers import SubscriberSerializer
@@ -46,36 +47,17 @@ def signup(request):
     response = TemplateResponse(request, 'registration/signup.html', {'form': form})
     return response
 
-class chatListView(APIView):   #(request)
 
-    # authentication_classes = (UserAuthentication,)
+class chatListView(TemplateView):
+	@method_decorator(login_required)
+	def get(self, request, *args, **kwargs):
+		chat_messages = chatmessage.objects.all()
+		total_messages = chat_messages.count()
+		self.template_name = 'chat_detail.html'
+		# if request.is_ajax():
+		# 	self.template_name = 'chat/delete.html'
+		return self.render_to_response({'chat_messages': chat_messages, 'total_messages': total_messages})
 
-    def get(self, request):
-        first_name = ''
-        last_name = ''
-        print(request.user)
-        if request.user is None or request.user.is_anonymous:
-            first_name = 'Guest'
-            last_name = ''
-        else:
-            first_name = request.user.first_name
-            last_name = request.user.last_name
-
-        content = {
-            'message': 'Welcome {} {}'.format(first_name, last_name)
-        }
-        return Response(content, status=status.HTTP_200_OK)
-        # form = Post_Form(request.POST or None)
-        # queryset=chatmessage.objects.all()          #change accoding to rest api
-        # if request.method == "POST":
-        #     instance = form.save(commit=False)
-        #     instance.username = request.user
-        #     instance.save()
-        # context = {
-        #     "object_list" : queryset,
-        #     "form" : form,
-        # }
-        # return render(request, 'home.html', context)
 
 '''
 class SubscriberView(ListCreateAPIView):

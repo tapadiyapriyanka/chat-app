@@ -40,7 +40,8 @@
     <div class="col-sm-6 col-sm-offset-3">
       <br>
         <div class="form-work">
-            <form method="post" action="">{% csrf_token %}
+            <form method="post" action="">
+                {% csrf_token %}
                  {{ form.as_p}}
                  <input type="button" name="submitbtn" id="submit_id" value="send">
             </form>
@@ -64,6 +65,9 @@
         $('#submit_id').click(function(){
           // var temp = document.getElementById("id_textmsg").value;
           var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        /**
+         * var csrfmiddlewaretoken = $("input[name=csrfmiddlewaretoken]").val();
+         */
           var chatMsg = $("#id_textmsg").val();
             $.ajax({
               type:'post',

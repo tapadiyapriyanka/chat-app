@@ -1,10 +1,22 @@
 {% block content %}
+
+  <div class="button2">
+        <a href="{% url 'auth:logout' %}">Logout</a>
+  </div>
   <div class="post_entry">
     <h2>{{ anything_you_want.username }}</h2>
     <p>{{ anything_you_want.textmsg }}</p>
   </div>
-
-  <p><a href="{% url 'chat_edit' %}">+ Edit chat</a></p>
-  <p> checking </p>
-  <p><a href= "{% url 'chat_delete' chat.pk %}">+ Delete chat</a></p>
+  {% if total_messages == 0 %}
+    No Messages
+  {% else %}
+    {% for m in chat_messages %}
+      <div class="msg">
+        <span class="textmsg">From: {{m.username }}</span>
+        <span class="textmsg">
+          {{m.textmsg }}
+        </span>
+      </div>
+    {% endfor %}
+  {% endif %}
 {% endblock content %}
