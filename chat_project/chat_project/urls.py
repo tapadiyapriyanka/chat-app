@@ -38,7 +38,7 @@ urlpatterns =[
     # url(r'^api/auth/login/', LoginView.as_view(), name='login'),
     # url(r'^api/home/', include(home_urls)),
 
-    # url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # url(r'^login/$', login, {'template_name': 'registration/login.html', 'authentication_form': LoginForm}, name='login_form'),
     # # url(r'^token/', json_web_token_auth, name='authenticate'),

@@ -1,4 +1,40 @@
+{% extends 'base.html' %}
 {% block content %}
+    <style type="text/css">
+        .msg {
+            width: 100%;
+        }
+        .AR{
+            text-align: right;
+        }
+        .AL{
+            text-align: left;
+        }
+        .FLR {
+            float:right;
+        }
+        .FLL {
+            float:left;
+        }
+        .headerText {
+            font-weight:bold;
+        }
+        /* .form-work{
+            min-width: 490px;
+            position: relative;
+            display: inline-block;
+        } */
+        /* .form-work span.namefortxtarea{
+            display: block;
+            text-align: left;
+            font-size:12px;
+        } */
+
+        /* .form-work span.buttonfortxtarea{
+            display: block;
+            text-align: right;
+        } */
+    </style>
 
   <div class="button2">
         <a href="{% url 'auth:logout' %}">Logout</a>
@@ -11,12 +47,42 @@
     No Messages
   {% else %}
     {% for m in chat_messages %}
-      <div class="msg">
-        <span class="textmsg">From: {{m.username }}</span>
+      <div class="msg{% if user.id == m.username.id %} AR {% else %} AL {% endif %}">
+        <span class="textmsg headerText">{% if user.id == m.username.id %} Me: {% else %} From: {% endif %} {{m.username }}</span>
         <span class="textmsg">
           {{m.textmsg }}
         </span>
       </div>
     {% endfor %}
+
   {% endif %}
+
+  <div class="form-work">
+      <form method="post" action=".">
+          {% csrf_token %}
+           {{ form.as_p }}
+           {# <button type="button" name="submitbtn" id="submit_id" value="send"> #}
+           <input type="button" name="submitbtn" id="submit_id" value="send">
+      </form>
+  </div>
+
+  <script type="text/javascript">
+      $('#submit_id').click(function(){
+        // var temp = document.getElementById("id_textmsg").value;
+        var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+      /**
+       * var csrfmiddlewaretoken = $("input[name=csrfmiddlewaretoken]").val();
+       */
+        var chatMsg = $("#id_textmsg").val();
+          $.ajax({
+            type:'post',
+            url: '/chat/list/',
+            data: {'textmsg':chatMsg,"csrfmiddlewaretoken":csrfmiddlewaretoken},
+            // dataType:"json",
+            success:function () {
+              location.reload();;
+            }
+          });
+      });
+  </script>
 {% endblock content %}

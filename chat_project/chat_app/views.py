@@ -23,29 +23,29 @@ from chat_project.authentication import UserAuthentication
 
 # Create your views here.
 class homePageView(TemplateView):
-    template_name = "base.html"
+	template_name = "base.html"
 
 class chatEditdeleteView(TemplateView):
-    template_name = "edit_delete.html"
+	template_name = "edit_delete.html"
 
 def logout_method(request):
-    return HttpResponse('You Logged out successfully..')
+	return HttpResponse('You Logged out successfully..')
 
 def signup(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('home')
-    else:
-        form = UserCreationForm()
+	if request.method == 'POST':
+		form = UserCreationForm(request.POST)
+		if form.is_valid():
+			form.save()
+			username = form.cleaned_data.get('username')
+			raw_password = form.cleaned_data.get('password1')
+			user = authenticate(username=username, password=raw_password)
+			login(request, user)
+			return redirect('home')
+	else:
+		form = UserCreationForm()
 
-    response = TemplateResponse(request, 'registration/signup.html', {'form': form})
-    return response
+	response = TemplateResponse(request, 'registration/signup.html', {'form': form})
+	return response
 
 
 class chatListView(TemplateView):
@@ -53,33 +53,57 @@ class chatListView(TemplateView):
 	def get(self, request, *args, **kwargs):
 		chat_messages = chatmessage.objects.all()
 		total_messages = chat_messages.count()
-		self.template_name = 'chat_detail.html'
+		form = Post_Form(request.POST or None)
+		if request.method == "POST":
+			instance = form.save(commit=False)
+			instance.username = request.user
+			instance.save()
+		context = {
+			'chat_messages': chat_messages,
+			"form" : form,
+		}
+		return render(request, 'chat_detail.html', context)
+
+	def post(self, request, *args, **kwargs):
+		chat_messages = chatmessage.objects.all()
+		total_messages = chat_messages.count()
+		form = Post_Form(request.POST or None)
+		instance = form.save(commit=False)
+		instance.username = request.user
+		instance.save()
+		context = {
+			'chat_messages': chat_messages,
+			"form" : form,
+		}
+		return render(request, 'chat_detail.html', context)
+
 		# if request.is_ajax():
 		# 	self.template_name = 'chat/delete.html'
-		return self.render_to_response({'chat_messages': chat_messages, 'total_messages': total_messages})
+		# self.template_name = 'chat_detail.html'
+		# return self.render_to_response({'chat_messages': chat_messages, "form" : form})
 
 
 '''
 class SubscriberView(ListCreateAPIView):
-    serializer_class = SubscriberSerializer
-    queryset = chatmessage.objects.all()
+	serializer_class = SubscriberSerializer
+	queryset = chatmessage.objects.all()
 
-    # def post(self, request):
-    #     serializer = SubscriberSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         subscriber_instance = Subscriber.objects.create(**serializer.data)
-    #     else:
-    #         return Response({"errors": serializer.errors})
+	# def post(self, request):
+	#     serializer = SubscriberSerializer(data=request.data)
+	#     if serializer.is_valid():
+	#         subscriber_instance = Subscriber.objects.create(**serializer.data)
+	#     else:
+	#         return Response({"errors": serializer.errors})
 
-    # def get(self, request):
-    #     all_subscribers = chatmessage.objects.all()
-    #     serialized_subscribers = SubscriberSerializer(all_subscribers, many=True)
-    #     return Response(serialized_subscribers.data)
+	# def get(self, request):
+	#     all_subscribers = chatmessage.objects.all()
+	#     serialized_subscribers = SubscriberSerializer(all_subscribers, many=True)
+	#     return Response(serialized_subscribers.data)
 '''
 class chatDetailView(DetailView):
-    model = chatmessage
-    template_name = 'chat_detail.html'
-    context_object_name = 'anything_you_want'
+	model = chatmessage
+	template_name = 'chat_detail.html'
+	context_object_name = 'anything_you_want'
 
 # class chatCreateView(CreateView):
 #     model = chatmessage
@@ -87,11 +111,11 @@ class chatDetailView(DetailView):
 #     fields = '__all__'
 
 class chatUpdateView(UpdateView):
-    model = chatmessage
-    template_name = 'chat_edit.html'
-    fields = ['textmsg']
+	model = chatmessage
+	template_name = 'chat_edit.html'
+	fields = ['textmsg']
 
 class chatDeleteView(DeleteView):
-    model = chatmessage
-    template_name = 'chat_delete.html'
-    success_url = reverse_lazy('homepage')
+	model = chatmessage
+	template_name = 'chat_delete.html'
+	success_url = reverse_lazy('homepage')

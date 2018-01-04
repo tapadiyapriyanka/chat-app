@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 import datetime
-
+from django.forms import TextInput, Textarea
 # Create your models here.
 
 class Base(models.Model):
@@ -17,6 +17,7 @@ class Base(models.Model):
 class chatmessage(Base):
    username = models.ForeignKey(User,on_delete=models.CASCADE)
    textmsg = models.TextField()
+
 
    def get_absolute_url(self):
         return reverse('homepage')
