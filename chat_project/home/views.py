@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.forms import UserCreationForm
 
 User = get_user_model()
 
@@ -56,12 +57,18 @@ class Logout(TemplateView):
 def user_data(request):
 
 	users = User.objects.select_related('logged_in_user')
-	# import pdb; pdb.set_trace();
-
-	print("users = ",users)
 	for user in users:
 		user.status = 'Online' if hasattr(user, 'logged_in_user') else 'Offline'
 	return render(request, 'user_data.html', {'users': users})
 	# return render(request, 'chat_detail.html', {'users': users})
 
-	# return render(request, 'user_data.html')
+def sign_up(request):
+    form = UserCreationForm()
+    if request.method == 'POST':
+        form = UserCreationForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/login/')
+        else:
+            print(form.errors)
+    return render(request, 'registration/signup.html', {'form': form})
