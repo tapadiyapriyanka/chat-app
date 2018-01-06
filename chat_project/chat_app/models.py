@@ -1,10 +1,13 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 import datetime
 from django.forms import TextInput, Textarea
 # Create your models here.
+
+
 
 class Base(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)

@@ -8,3 +8,5 @@ djangorestframework-jwt
 markdown
 django-filter
 django-bootstrap3
+channels
+asgi_redis

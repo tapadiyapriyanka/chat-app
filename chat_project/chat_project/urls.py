@@ -28,8 +28,11 @@ from chat_app import urls as chat_urls
 
 admin.autodiscover()
 
-urlpatterns =[
+app_name = 'chat_home'
+
+urlpatterns = [
     url(r'', include(home_urls, namespace='auth')),
+    # url(r'^admin/', include(admin.site.urls, namespace='auth')),
     url(r'^chat/', include(chat_urls, namespace='chat')),
     # url(r'^goal/', include('goal.urls', namespace='goal')),
     # url(r'', include('home.urls', namespace='home')),

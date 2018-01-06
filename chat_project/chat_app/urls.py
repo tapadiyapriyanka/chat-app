@@ -1,5 +1,6 @@
 from django.conf.urls import *
 from . import views
+# from chat_app.views import user_data
 # from rest_framework.routers import SimpleRouter
 #
 # from .views import SubscriberView
@@ -30,4 +31,5 @@ urlpatterns = [
     url('edit/<int:pk>', views.chatUpdateView.as_view(), name='chat_edit'),
     url('delete/<int:pk>',views.chatDeleteView.as_view(), name='chat_delete'),
     url('edit_delete', views.chatEditdeleteView.as_view(), name='edit_delete'),
+    
 ]

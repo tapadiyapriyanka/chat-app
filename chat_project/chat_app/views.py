@@ -21,6 +21,8 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 
 from chat_project.authentication import UserAuthentication
 
+
+
 # Create your views here.
 class homePageView(TemplateView):
 	template_name = "base.html"
@@ -81,6 +83,7 @@ class chatListView(TemplateView):
 		# 	self.template_name = 'chat/delete.html'
 		# self.template_name = 'chat_detail.html'
 		# return self.render_to_response({'chat_messages': chat_messages, "form" : form})
+
 
 
 '''

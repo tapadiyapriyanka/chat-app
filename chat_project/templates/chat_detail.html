@@ -1,70 +1,95 @@
 {% extends 'base.html' %}
 {% block content %}
-    <style type="text/css">
-        .msg {
-            width: 100%;
-        }
-        .AR{
-            text-align: right;
-        }
-        .AL{
-            text-align: left;
-        }
-        .FLR {
-            float:right;
-        }
-        .FLL {
-            float:left;
-        }
-        .headerText {
-            font-weight:bold;
-        }
-        /* .form-work{
-            min-width: 490px;
-            position: relative;
-            display: inline-block;
-        } */
-        /* .form-work span.namefortxtarea{
-            display: block;
-            text-align: left;
-            font-size:12px;
-        } */
+<style type="text/css">
+    .msg {
+        width: 100%;
+    }
+    .AR{
+        text-align: right;
+    }
+    .AL{
+        text-align: left;
+    }
+    .FLR {
+        float:right;
+    }
+    .FLL {
+        float:left;
+    }
+    .headerText {
+        font-weight:bold;
+    }
+    /* .form-work{
+        min-width: 490px;
+        position: relative;
+        display: inline-block;
+    } */
+    /* .form-work span.namefortxtarea{
+        display: block;
+        text-align: left;
+        font-size:12px;
+    } */
 
-        /* .form-work span.buttonfortxtarea{
-            display: block;
-            text-align: right;
-        } */
-    </style>
-
-  <div class="button2">
-        <a href="{% url 'auth:logout' %}">Logout</a>
-  </div>
-  <div class="post_entry">
-    <h2>{{ anything_you_want.username }}</h2>
-    <p>{{ anything_you_want.textmsg }}</p>
-  </div>
-  {% if total_messages == 0 %}
-    No Messages
-  {% else %}
-    {% for m in chat_messages %}
-      <div class="msg{% if user.id == m.username.id %} AR {% else %} AL {% endif %}">
-        <span class="textmsg headerText">{% if user.id == m.username.id %} Me: {% else %} From: {% endif %} {{m.username }}</span>
-        <span class="textmsg">
-          {{m.textmsg }}
-        </span>
+    /* .form-work span.buttonfortxtarea{
+        display: block;
+        text-align: right;
+    } */
+</style>
+<div class="container-fluid">
+  <div class="row">
+	<div class="col-md-3">
+  	 <div class="row chats-row">
+        <div class="col-md-12">
+            <a href="#" class="list-group-item">User 1</a>
+            <a href="{% url 'auth:user_data' %}" class="list-group-item list-group-item-success">Group of logged_in_user</a>
+            <a href="#" class="list-group-item active">User 3 (Active chat)</a>
+        </div>
+  	 </div>
+	</div>
+    <div class="col-md-9 current-chat">
+      <div class="row current-chat-area">
+        <div class="col-md-12">
+          <ul class="media-list">
+              {% if total_messages == 0 %}
+                No messages
+              {% else %}
+                {% for m in chat_messages %}
+              <li class="media">
+                <div class="media-body">
+                  <div class="media">
+                    <a class="pull-left" href="#">
+                      <img style="width:50px;    border-radius: 50%;" class="media-object img-circle " src="/static/images/profile.png">
+                    </a>
+                    <div class="media-body">
+                        {{m.textmsg}}
+                        <br>
+                       <small class="text-muted">{{m.username}} | {{ m.created_at }}</small>
+                        <hr>
+                    </div>
+                  </div>
+                </div>
+              </li>
+                {% endfor %}
+              {% endif %}
+          </ul>
+        </div>
       </div>
-    {% endfor %}
-
-  {% endif %}
-
-  <div class="form-work">
-      <form method="post" action=".">
-          {% csrf_token %}
-           {{ form.as_p }}
-           {# <button type="button" name="submitbtn" id="submit_id" value="send"> #}
-           <input type="button" name="submitbtn" id="submit_id" value="send">
-      </form>
-  </div>
+      <div class="row current-chat-footer">
+	  <form method="post" action=".">
+        {% csrf_token %}
+        <div class="panel-footer">
+          <div class="input-group">
+            <input type="text" id="id_textmsg" name="textmsg" class="form-control">
+            <span class="input-group-btn">
+              <button name="submitbtn" id="submit_id" class="btn btn-default" type="button">Send</button>
+            </span>
+          </div>
+        </div>
+	  </form>
+      </div>
+		</div>
+	</div>
+</div>
 
   <script type="text/javascript">
       $('#submit_id').click(function(){
