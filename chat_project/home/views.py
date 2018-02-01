@@ -55,7 +55,6 @@ class Logout(TemplateView):
 
 @login_required(login_url='/login/')
 def user_data(request):
-
 	users = User.objects.select_related('logged_in_user')
 	for user in users:
 		user.status = 'Online' if hasattr(user, 'logged_in_user') else 'Offline'

@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title>{% block title %}Chat List{% endblock %}</title>
+    <body>
+      {% block header_text %}Chat List{% endblock %}
+
+      {% block content %}
+        {{ site }}
+          <form action="." method="POST">
+              {% csrf_token %}
+              {% for chat in object_list %}
+                  {{ chat.textmsg }}<br>
+              {% endfor %}
+          </form>
+      {% endblock %}
+    </body>

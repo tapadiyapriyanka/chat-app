@@ -29,7 +29,7 @@ STATICFILES_DIRS = [
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.0.112","192.168.0.173", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["192.168.0.112","192.168.0.173", "localhost"]
 # Application definition
 DEFAULT_APPS = [
     'django.contrib.admin',
@@ -41,13 +41,13 @@ DEFAULT_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    'rest_framework'
+    'rest_framework',
+    'channels'
 ]
 
 LOCAL_APPS = [
     'home',
-    'chat_app',
-    'channels',
+    'chat_app'
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -122,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 

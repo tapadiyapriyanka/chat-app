@@ -53,7 +53,7 @@ def signup(request):
 class chatListView(TemplateView):
 	@method_decorator(login_required)
 	def get(self, request, *args, **kwargs):
-		chat_messages = chatmessage.objects.all()
+		chat_messages = chatmessage.objects.all().order_by('created_at')
 		total_messages = chat_messages.count()
 		form = Post_Form(request.POST or None)
 		if request.method == "POST":

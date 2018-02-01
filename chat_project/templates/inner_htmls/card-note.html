@@ -1,0 +1,17 @@
+{% block card-note %}
+<li class="media">
+  <div class="media-body">
+	<div class="media">
+	  <a class="pull-left" href="#">
+		<img style="width:50px;    border-radius: 50%;" class="media-object img-circle " src="/static/images/profile.png">
+	  </a>
+	  <div class="media-body">
+		  {{m.textmsg}}
+		  <br>
+		 <small class="text-muted">{{m.username}} | {{ m.created_at }}</small>
+		  <hr>
+	  </div>
+	</div>
+  </div>
+</li>
+{% endblock %}
